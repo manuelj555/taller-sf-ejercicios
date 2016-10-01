@@ -11,10 +11,15 @@ class RegistrationType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder
+            ->add('nombre')
+            ->add('apellido')
+            ->add('pais')
+            ->add('estado')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
     }
-
 }
