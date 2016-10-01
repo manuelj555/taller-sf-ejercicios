@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class RegistrationType extends AbstractType
 {
@@ -24,6 +26,10 @@ class RegistrationType extends AbstractType
             ])
             ->add('estado', ChoiceType::class)
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
+            $form = $event->getForm();
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)
