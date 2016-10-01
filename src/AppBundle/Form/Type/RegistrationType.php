@@ -15,7 +15,13 @@ class RegistrationType extends AbstractType
         $builder
             ->add('nombre')
             ->add('apellido')
-            ->add('pais', ChoiceType::class)
+            ->add('pais', ChoiceType::class, [
+                'placeholder' => 'Seleccionar',
+                'choices' => [
+                    'Colombia' => 'co',
+                    'Venezuela' => 've',
+                ],
+            ])
             ->add('estado', ChoiceType::class)
         ;
     }
