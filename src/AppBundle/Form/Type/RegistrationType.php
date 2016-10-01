@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RegistrationType extends AbstractType
 {
@@ -14,8 +15,8 @@ class RegistrationType extends AbstractType
         $builder
             ->add('nombre')
             ->add('apellido')
-            ->add('pais')
-            ->add('estado')
+            ->add('pais', ChoiceType::class)
+            ->add('estado', ChoiceType::class)
         ;
     }
 
