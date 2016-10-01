@@ -11,3 +11,4 @@ Ejercicios:
 ### Clases de Formulario
 
     AppBundle\Form\Type\RegistrationType
+    AppBundle\Controller\RegistrationController
