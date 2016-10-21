@@ -1,0 +1,25 @@
+{% block choice_other_widget %}
+    {% set otherValue = constant('AppBundle\\Form\\Type\\ChoiceOtherType::OTHER')  %}
+    {% set cssDisplay = form.choices.vars.data == otherValue ? '' : 'none' %}
+    {{ form_row(form.choices) }}
+    {{ form_row(form.other, { attr: {'style': 'display: '~cssDisplay} }) }}
+
+    <script>
+        var $choiceForm = document.getElementById('{{ form.choices.vars.id }}');
+        var $otherForm = document.getElementById('{{ form.other.vars.id }}');
+
+        $choiceForm.addEventListener('change', function (event) {
+            var value = this.querySelector(':checked').value;
+
+            if('' === value.trim()){
+                return;
+            }
+
+            if('{{ otherValue }}' == value){
+                $otherForm.style.display = '';
+            }else{
+                $otherForm.style.display = 'none';
+            }
+        });
+    </script>
+{% endblock choice_other_widget %}

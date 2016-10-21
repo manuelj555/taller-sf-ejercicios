@@ -5,15 +5,18 @@
     <title>{% block title %}Ejercicios con Symfony{% endblock %}</title>
 
     {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('build/app.css') }}">
     {% endblock %}
 
 </head>
 <body>
+    <br>    
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
 
-{% block body %}{% endblock %}
-
-{% block javascripts %}
-{% endblock %}
-
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    {% endblock %}
 </body>
 </html>

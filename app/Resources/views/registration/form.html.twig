@@ -3,8 +3,28 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
     {{ form_widget(form) }}
     <input type="submit" value="Enviar Formulario" />
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var $pais = $("#{{ form.pais.vars.id }}");
+        var $estado = $("#{{ form.estado.vars.id }}");
+
+        $pais.on('change', function(e){
+            if(!$pais.val()){
+                return;
+            }
+
+            $.post($pais.closest('form').attr('action'), $pais.serializeArray()).done(function(html){
+                $estado.html(
+                    $(html).find("#{{ form.estado.vars.id }}").html()
+                );
+            });
+        });
+    </script>
 {% endblock %}
