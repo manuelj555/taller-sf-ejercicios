@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -43,7 +44,7 @@ class ChoiceOtherType extends AbstractType implements DataTransformerInterface
             'label' => false,
         ]);
 
-        $builder->add('other', TextType::class, [
+        $builder->add('other', $options['other_type'], [
             'label' => false,
         ]);
 
@@ -71,11 +72,16 @@ class ChoiceOtherType extends AbstractType implements DataTransformerInterface
         $resolver->setDefaults([
             'placeholder' => null,
             'other_label' => 'Especificar Otro',
+            'other_type' => 'text',
         ]);
         $resolver->setRequired('choices');
 
         $resolver->setAllowedTypes('choices', 'array');
         $resolver->setAllowedTypes('other_label', 'string');
+        $resolver->setAllowedValues('other_type', [
+            TextType::class,
+            TextareaType::class,
+        ]);
     }
 
     public function transform($value)

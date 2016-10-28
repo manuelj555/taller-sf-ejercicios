@@ -19,7 +19,7 @@ class RegistrationController extends Controller
     public function formAction(Request $request)
     {
         $form = $this->createForm(RegistrationType::class, [
-            'profesion' => 'Lavandería'
+//            'profesion' => 'Lavandería'
         ], [
             'paises' => [
                 (object)[
@@ -35,6 +35,19 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
 
         $form->isSubmitted() and dump($form->getData());
+
+    /*    $r = $this->get('validator')->validate('ab', [
+            new \Symfony\Component\Validator\Constraints\Length([
+                'min' => 3,
+                // 'groups' => ['a'],
+            ]),
+            new \Symfony\Component\Validator\Constraints\Email([
+                'groups' => ['b'],
+            ])
+        // ], ['a', 'b']);
+        ], new \Symfony\Component\Validator\Constraints\GroupSequence(['Default', 'b']));
+
+        dump($r);die;*/
         
         return $this->render('registration/form.html.twig', [
             'form' => $form->createView(),

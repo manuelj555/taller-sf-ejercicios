@@ -1,3 +1,13 @@
+day_two:
+    resource: "@DayTwoBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+day_one:
+    resource: "@DayOneBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

@@ -1,2 +1,55 @@
 services:
-    
+    app.gateway.product:
+        class: DayTwoBundle\Gateway\ProductGateway
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    app.repository.product:
+        class: DayTwoBundle\Repository\ProductRepository
+        factory: 
+            - "@doctrine.orm.entity_manager"
+            - "getRepository"
+        arguments:
+            - 'DayTwoBundle:Product'
+
+
+
+## DIA 3
+#
+    app.twig.extension.boolean_to_string:
+        class: DayTwoBundle\Twig\Extension\BooleanToStringExtension
+        arguments:
+            - "@translator"
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    app.listener.hola_mundo_logger:
+        class: HolaMundoLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: agregarMensajeAlLogguer }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

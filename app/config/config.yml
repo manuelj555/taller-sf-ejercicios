@@ -2,11 +2,13 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: "@DayOneBundle/Resources/config/services.yml" }
+    - { resource: "@DayTwoBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: es
+    locale: en
 
 framework:
     #esi:             ~
@@ -38,9 +40,11 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
+        - 'bootstrap_3_horizontal_layout.html.twig'
 #        - "form/theme.html.twig"
 #        - "bootstrap_3_layout.html.twig"
-        - "form_themes/choice_other.html.twig"
+#        - "form_themes/choice_other.html.twig"
+        - "form_themes/choice_other2.html.twig"
 
 # Doctrine Configuration
 doctrine:
@@ -63,6 +67,14 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        filters:
+            # deleted_product:
+            #     class: AppBundle\Doctrine\Filter\DeletedProductFilter
+            #     enabled: true
+            #     
+            active_product_category:
+                class: DayTwoBundle\Doctrine\Filter\ActiveProductCategoryFilter
+                enabled: true
 
 # Swiftmailer Configuration
 swiftmailer:

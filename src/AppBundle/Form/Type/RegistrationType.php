@@ -4,14 +4,21 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
 {
+    private $profesiones = [
+        'Recursos Humanos' => 'rrhh',
+        'Sistemas' => 'sis',
+        'Contabilidad' => 'cont',
+    ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,22 +28,24 @@ class RegistrationType extends AbstractType
             ->add('nombre', null, [
                 'constraints' => new NotBlank(),
             ])
-            ->add('pais', ChoiceType::class, [
-                'constraints' => new NotBlank(),
+            ->add('profesion', ChoiceOtherType::class, [
+                'required' => true,
+                'placeholder' => 'Seleccionar',
+                'choices' => $this->profesiones,
+                //'other_label' => 'Otro por favor',
+                'other_type' => ChoiceType::class,
+            ])
+            ->add('pais', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', [
+                'constraints' => new NotBlank([
+                    'groups' => ['profesionConocida'],
+                ]),
                 'placeholder' => 'Seleccionar',
                 'choices' => $paises,
                 'choice_value' => 'code',
                 'choice_label' => 'label',
             ])
-            ->add('estado', ChoiceType::class)
-            ->add('profesion', ChoiceOtherType::class, [
-                'required' => true,
-                'placeholder' => 'Seleccionar',
-                'choices' => [
-                    'Recursos Humanos' => 'rrhh',
-                    'Sistemas' => 'sis',
-                    'Contabilidad' => 'cont',
-                ],
+            ->add('estado', ChoiceType::class, [
+                'label' => 'Estado, Provincia o Departamento',
             ])
         ;
 
@@ -48,7 +57,10 @@ class RegistrationType extends AbstractType
 
             $form->add('estado', ChoiceType::class, [
                 'choices' => isset($paises[$pais]) ? $paises[$pais]->estados : [],
-                'constraints' => new NotBlank(),
+                'constraints' => new NotBlank([
+                    'groups' => ['profesionConocida'],
+                ]),
+                'label' => 'Estado, Provincia o Departamento',
             ]);
         });
     }
@@ -85,6 +97,16 @@ class RegistrationType extends AbstractType
             }
 
             return $values;
+        });
+
+        $resolver->setDefault('validation_groups', function (FormInterface $form) {
+            $groups = ['Default'];
+
+            if (in_array($form['profesion']->getData(), $this->profesiones)) {
+                $groups[] = 'profesionConocida';
+            }
+
+            return $groups;
         });
     }
 }

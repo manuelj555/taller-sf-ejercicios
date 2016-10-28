@@ -11,12 +11,9 @@
         $choiceForm.addEventListener('change', function (event) {
             var value = this.querySelector(':checked').value;
 
-            if('' === value.trim()){
-                return;
-            }
-
             if('{{ otherValue }}' == value){
                 $otherForm.style.display = '';
+                $otherForm.value = '';
             }else{
                 $otherForm.style.display = 'none';
             }
